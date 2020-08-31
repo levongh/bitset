@@ -98,6 +98,34 @@ public:
         }
     }
 
+    void flip() noexcept
+    {
+        for (size_t idx = 0; idx < N; ++idx) {
+            word[idx] = ~word[idx];
+        }
+    }
+
+    void set() noexcept
+    {
+        for (size_t idx = 0; idx < N; ++idx) {
+            word[idx] = ~static_cast<word_type>(0);
+        }
+    }
+
+    void reset() noexcept
+    {
+        __builtin_memset(word, 0, N * sizeof(word_type));
+    }
+
+    bool equal(const base_bitset<N>& other)
+    {
+        for (size_t idx = 0; idx < N; ++idx) {
+            if (word[idx] != other.word[idx]) {
+                return false;
+            }
+        }
+        return true;
+    }
     void left_shift(size_t shift) noexcept;
     void right_shift(size_t shift) noexcept;
     unsigned long to_long() const;
