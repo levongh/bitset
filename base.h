@@ -126,6 +126,36 @@ public:
         }
         return true;
     }
+
+    template <size_t NT>
+    bool all() const noexcept
+    {
+        for (size_t idx = 0; idx < N; ++idx) {
+            if (word[idx] != ~static_cast<word_type>(0)) {
+                return false;
+            }
+        }
+        return hiword() == (~static_cast<word_type>(0) >> (N * BITSET_BITS_PER_WORD - NT));
+    }
+
+    bool any() const noexcept
+    {
+        for (size_t idx = 0; idx < N; ++idx) {
+            if (word[idx] != static_cast<word_type>(0)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    size_t count() const noexcept
+    {
+        size_t result = 0;
+        for (size_t idx = 0; idx < N; ++idx) {
+            result += __builtin_popcountl(word[idx]);
+        }
+    }
+
     void left_shift(size_t shift) noexcept;
     void right_shift(size_t shift) noexcept;
     unsigned long to_long() const;
@@ -133,3 +163,5 @@ public:
     size_t find_first(size_t) const noexcept;
     size_t find_next(size_t, size_t) const noexcept;
 };
+
+#include "_base_impl.h"
