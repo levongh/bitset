@@ -48,7 +48,7 @@ public:
 
     static constexpr size_t maskbit(size_t pos) noexcept
     {
-        return (static_cast<word_type>(1)) << whichbit(pos);
+        return (static_cast<word_type>(1)) << get_bit(pos);
     }
     ///}
 
@@ -135,7 +135,7 @@ public:
                 return false;
             }
         }
-        return hiword() == (~static_cast<word_type>(0) >> (N * BITSET_BITS_PER_WORD - NT));
+        return last() == (~static_cast<word_type>(0) >> (N * BITSET_BITS_PER_WORD - NT));
     }
 
     bool any() const noexcept
